@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Roboto, sans-serif;
+}
+
+/* Tailnews Custom Utilities */
+.text-shadow-white {
+  text-shadow: 1px 1px #fff;
+}
+
+.text-shadow-black {
+  text-shadow: 1px 1px #000;
+}
+
+.border-l-3 {
+  border-left-width: 3px;
+}
+
+.max-h-98 {
+  max-height: 24.3rem;
+}
+
+/* Gradient Cover Effect */
+.bg-gradient-cover {
+  background-image: linear-gradient(transparent, rgba(0,0,0,0.92));
+}
+
+/* Image Hover Effects */
+.hover-img:hover img {
+  filter: brightness(103%) contrast(103%);
+  opacity: 0.99;
+  transition: all 0.3s ease;
+}
+
+/* Post Number Counter Widget */
+.post-number {
+  counter-reset: my-counter;
+}
+
+.post-number li a::before {
+  font-size: 2rem;
+  counter-increment: my-counter;
+  content: counter(my-counter);
+  color: #ced4da !important;
+  width: 3rem;
+  margin-right: 0.5rem;
+}
+
+/* Line Clamp Utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dropdown Menu System */
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* Desktop Dropdown Behavior */
+@media (min-width: 1024px) {
+  .navbar .dropdown:hover > .dropdown-menu {
+    display: block;
+  }
+  
+  .navbar .dropdown-menu > li:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Dropdown Arrow Icons */
+.dropdown > a:after {
+  content: "";
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  background-repeat: no-repeat;
+  background-size: 0.8rem 0.8rem;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+  margin-top: 0.2rem;
+  float: right;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3e%3cpolyline points='112 184 256 328 400 184' fill='none' stroke='%23f9f9f9' stroke-linecap='round' stroke-linejoin='round' stroke-width='48px'/%3e%3c/svg%3e");
+}
+
+.subdropdown > a:after {
+  content: "";
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  background-repeat: no-repeat;
+  background-size: 0.8rem 0.8rem;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+  margin-top: 0.2rem;
+  float: right;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3e%3cpolyline points='112 184 256 328 400 184' fill='none' stroke='%23555555' stroke-linecap='round' stroke-linejoin='round' stroke-width='48px'/%3e%3c/svg%3e");
+  transform: rotate(-90deg);
+}
+
+/* Side Menu Animation */
+.side-menu {
+  right: -16rem;
+  transition: all 0.5s ease;
+}
+
+.side-menu.show {
+  right: 0;
+}
+
+/* Swiper Custom Styles */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #ce2626 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ce2626 !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ce2626;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a01e1e;
+}
