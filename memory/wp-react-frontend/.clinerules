@@ -1,0 +1,117 @@
+# CLI Rules: WordPress React Frontend
+
+## Critical Implementation Paths
+
+### WordPress API Integration
+- **Always validate WordPress REST API endpoints before implementing new features**
+- **Use the established WordPress API client in `src/lib/wordpress-api.ts` for all API calls**
+- **Implement proper error handling with user-friendly messages for all WordPress API interactions**
+- **Follow JWT authentication patterns established in `src/lib/auth-api.ts`**
+
+### Component Development Workflow
+- **Read existing component patterns before creating new components**
+- **Follow the established component structure in `src/components/` with proper feature organization**
+- **Use TypeScript interfaces from `src/types/` for all component props and data structures**
+- **Implement proper loading states and error boundaries for all data-dependent components**
+
+### Testing Requirements
+- **Run `npm run test` after any component changes to ensure test compatibility**
+- **Use established MSW handlers in `src/test/utils/msw-handlers.ts` for API mocking**
+- **Follow React Testing Library patterns from existing test files**
+- **Maintain 100% test coverage for critical components (authentication, API clients, core UI)**
+
+### State Management Patterns
+- **Use Zustand store in `src/store/wordpress.ts` for WordPress-related global state**
+- **Implement SWR for data fetching with established cache patterns**
+- **Use React Context only for authentication state (`src/contexts/AuthContext.tsx`)**
+- **Follow established loading state patterns with skeleton loaders**
+
+## User Workflow Preferences
+
+### Development Commands Priority
+1. `npm run dev` - Primary development server with Turbopack
+2. `npm run test:watch` - Continuous testing during development
+3. `npm run lint` - Code quality checks before commits
+4. `npm run type-check` - TypeScript validation
+5. `npm run build` - Production build validation
+
+### Code Quality Gates
+- **Always run lint and type-check before considering work complete**
+- **Ensure all tests pass with `npm run test:ci` for comprehensive validation**
+- **Validate bundle optimization with `npm run build:analyze` for significant changes**
+- **Check Lighthouse scores for performance-critical changes**
+
+### File Creation Preferences
+- **Prefer editing existing files over creating new ones**
+- **Follow established directory structure in `src/` for component organization**
+- **Use index.ts files for clean barrel exports in component directories**
+- **Co-locate test files with components in `__tests__/` subdirectories**
+
+## Tool Usage Patterns
+
+### Search and Navigation
+- **Use Glob tool to find component files by pattern (e.g., `**/*Component.tsx`)**
+- **Use Grep tool to search for specific code patterns or implementations**
+- **Use Read tool to understand existing component architecture before modifications**
+
+### WordPress-Specific Development
+- **Always check WordPress REST API v2 documentation for new endpoint integrations**
+- **Validate JWT token handling patterns in existing authentication code**
+- **Follow WordPress taxonomy patterns (categories, tags, custom post types)**
+- **Implement proper WordPress role and capability checking**
+
+### Performance Optimization
+- **Use Next.js Image component for all image assets**
+- **Implement proper caching headers for WordPress API responses**
+- **Follow established code splitting patterns with dynamic imports**
+- **Validate Core Web Vitals impact for any performance-related changes**
+
+## Project-Specific Decisions
+
+### Architecture Decisions
+- **Next.js 15 with App Router is the established routing pattern**
+- **TypeScript strict mode is enforced - no JavaScript files allowed**
+- **Tailwind CSS 4 is the styling framework - no additional CSS frameworks**
+- **Zustand + SWR is the established state management pattern**
+
+### WordPress Integration Decisions
+- **JWT authentication is the established auth pattern - no cookie-based auth**
+- **WordPress REST API v2 is the API version - maintain compatibility**
+- **Support for WordPress custom post types and meta fields is required**
+- **WordPress media library integration must use Next.js Image optimization**
+
+### Deployment Decisions
+- **Vercel is the primary deployment target with GitHub integration**
+- **Docker support is maintained for alternative hosting options**
+- **Environment variables are managed through `.env.local` for development**
+- **CI/CD pipeline uses GitHub Actions with automated testing**
+
+### Security Decisions
+- **JWT tokens are stored securely with httpOnly cookies option**
+- **CORS is configured for specific WordPress backend domains only**
+- **Content Security Policy headers are enforced in production**
+- **All user input is sanitized following WordPress security patterns**
+
+## Continuous Learning Patterns
+
+### When Adding New Features
+1. Read related existing components to understand patterns
+2. Check WordPress API documentation for available endpoints
+3. Implement TypeScript interfaces first, then components
+4. Write tests using established MSW patterns
+5. Validate performance impact with Lighthouse
+6. Update documentation if architectural patterns change
+
+### When Fixing Issues  
+1. Use Grep to find similar issue resolutions in codebase
+2. Check existing error handling patterns in lib/ directory
+3. Validate fix with comprehensive test coverage
+4. Ensure fix follows established TypeScript and ESLint patterns
+5. Run full test suite to prevent regressions
+
+### When Optimizing Performance
+1. Use established bundle analysis tools (`npm run build:analyze`)
+2. Follow existing image optimization patterns with Next.js Image
+3. Implement caching following SWR and Next.js patterns
+4. Validate improvements with Lighthouse CI integration
+5. Document optimization techniques for future reference
