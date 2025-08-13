@@ -1,0 +1,25 @@
+# Development override for docker-compose
+# This file provides development-specific configurations
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      target: builder  # Use builder stage for development
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./tailnews-react:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+
+  wordpress:
+    environment:
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_DEBUG_LOG: 1
+    volumes:
+      - ./wordpress-plugins:/var/www/html/wp-content/plugins/custom
+      - ./wordpress-themes:/var/www/html/wp-content/themes/custom

@@ -26,6 +26,9 @@ export function usePWA(): PWAHookReturn {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
+    // Check if we're in browser environment
+    if (typeof window === 'undefined') return;
+    
     // Check if PWA is supported
     const isSupported = 'serviceWorker' in navigator && 'PushManager' in window;
     
@@ -136,7 +139,7 @@ export function usePWA(): PWAHookReturn {
     canInstall,
     isOnline,
     installApp,
-    isSupported: 'serviceWorker' in navigator && 'PushManager' in window,
+    isSupported: typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window,
   };
 }
 
@@ -147,6 +150,8 @@ export function useServiceWorker() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistration()
         .then((reg) => {
@@ -185,7 +190,7 @@ export function useOfflineContent() {
   const [isLoading, setIsLoading] = useState(false);
 
   const saveForOffline = async (article: any) => {
-    if (!('serviceWorker' in navigator) || !('caches' in window)) {
+    if (typeof window === 'undefined' || !('serviceWorker' in navigator) || !('caches' in window)) {
       throw new Error('Offline functionality not supported');
     }
 
@@ -242,6 +247,9 @@ export function useOfflineContent() {
   };
 
   useEffect(() => {
+    // Check if we're in browser environment
+    if (typeof window === 'undefined') return;
+    
     // Load offline articles from localStorage
     const saved = localStorage.getItem('offline-articles');
     if (saved) {

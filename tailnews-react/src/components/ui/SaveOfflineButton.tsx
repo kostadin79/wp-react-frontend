@@ -35,7 +35,7 @@ const SaveOfflineButton = ({ article, className = '' }: SaveOfflineButtonProps) 
   };
 
   // Don't show if offline functionality is not supported
-  if (!('serviceWorker' in navigator) || !('caches' in window)) {
+  if (typeof window === 'undefined' || !('serviceWorker' in navigator) || !('caches' in window)) {
     return null;
   }
 

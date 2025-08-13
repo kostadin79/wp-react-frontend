@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # WordPress Database
+  db:
+    image: mysql:8.0
+    container_name: tailnews-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - tailnews-network
+    ports:
+      - "3306:3306"
+
+  # WordPress Backend
+  wordpress:
+    image: wordpress:6.4-apache
+    container_name: tailnews-wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+        /* Enable CORS for REST API */
+        define('ALLOW_UNFILTERED_UPLOADS', true);
+        
+        /* JWT Authentication */
+        define('JWT_AUTH_SECRET_KEY', 'your-secret-key-here');
+        define('JWT_AUTH_CORS_ENABLE', true);
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wordpress-config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    networks:
+      - tailnews-network
+    ports:
+      - "8080:80"
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./tailnews-react
+      dockerfile: Dockerfile
+    container_name: tailnews-frontend
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_WORDPRESS_URL=http://localhost:8080
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+      - WORDPRESS_API_URL=http://wordpress:80/wp-json/wp/v2
+      - JWT_SECRET_KEY=your-secret-key-here
+    volumes:
+      - ./tailnews-react:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - tailnews-network
+    ports:
+      - "3000:3000"
+
+  # Redis Cache (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: tailnews-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - tailnews-network
+    ports:
+      - "6379:6379"
+
+volumes:
+  db_data:
+  wordpress_data:
+  redis_data:
+
+networks:
+  tailnews-network:
+    driver: bridge

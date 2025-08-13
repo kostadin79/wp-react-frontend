@@ -1,0 +1,21 @@
+# Development override for frontend-only docker-compose
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      target: builder  # Use builder stage for development
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./tailnews-react:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+
+  # Disable nginx in development (access frontend directly)
+  nginx:
+    profiles:
+      - production

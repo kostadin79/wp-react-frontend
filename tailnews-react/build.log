@@ -1,0 +1,113 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.14kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 DONE 0.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 1.31kB 0.0s done
+#3 DONE 0.0s
+
+#4 [deps 1/5] FROM docker.io/library/node:20-alpine@sha256:df02558528d3d3d0d621f112e232611aecfee7cbc654f6b375765f72bb262799
+#4 DONE 0.0s
+
+#5 [builder 2/5] WORKDIR /app
+#5 CACHED
+
+#6 [runner 3/7] RUN addgroup --system --gid 1001 nodejs
+#6 CACHED
+
+#7 [runner 4/7] RUN adduser --system --uid 1001 nextjs
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 4.22kB 0.0s done
+#8 DONE 0.0s
+
+#9 [deps 3/5] WORKDIR /app
+#9 CACHED
+
+#10 [deps 2/5] RUN apk add --no-cache libc6-compat
+#10 CACHED
+
+#11 [deps 4/5] COPY package.json package-lock.json* ./
+#11 CACHED
+
+#12 [deps 5/5] RUN npm ci --only=production && npm cache clean --force
+#12 CACHED
+
+#13 [builder 3/5] COPY --from=deps /app/node_modules ./node_modules
+#13 CACHED
+
+#14 [builder 4/5] COPY . .
+#14 CACHED
+
+#15 [builder 5/5] RUN npm run build
+#15 0.799 
+#15 0.799 > tailnews-react@0.1.0 build
+#15 0.799 > next build
+#15 0.799 
+#15 1.706  ⚠ Installing TypeScript as it was not found while loading "next.config.ts".
+#15 1.751 
+#15 1.751 Installing devDependencies (npm):
+#15 1.751 - typescript
+#15 1.751 
+#15 16.46 
+#15 16.46 added 503 packages, and audited 998 packages in 15s
+#15 16.47 
+#15 16.47 201 packages are looking for funding
+#15 16.47   run `npm fund` for details
+#15 16.47 
+#15 16.47 found 0 vulnerabilities
+#15 16.49 
+#15 16.50  ⨯ Failed to load next.config.ts, see more info here https://nextjs.org/docs/messages/next-config-error
+#15 16.52 
+#15 16.52 > Build error occurred
+#15 16.53 [Error: Cannot find module 'typescript'
+#15 16.53 Require stack:
+#15 16.53 - /app/node_modules/next/dist/build/next-config-ts/transpile-config.js
+#15 16.53 - /app/node_modules/next/dist/server/config.js
+#15 16.53 - /app/node_modules/next/dist/cli/next-test.js
+#15 16.53 - /app/node_modules/next/dist/bin/next] {
+#15 16.53   code: 'MODULE_NOT_FOUND',
+#15 16.53   requireStack: [Array]
+#15 16.53 }
+#15 16.55 npm notice
+#15 16.55 npm notice New major version of npm available! 10.8.2 -> 11.5.2
+#15 16.55 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+#15 16.55 npm notice To update run: npm install -g npm@11.5.2
+#15 16.55 npm notice
+#15 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
+------
+ > [builder 5/5] RUN npm run build:
+16.53 - /app/node_modules/next/dist/cli/next-test.js
+16.53 - /app/node_modules/next/dist/bin/next] {
+16.53   code: 'MODULE_NOT_FOUND',
+16.53   requireStack: [Array]
+16.53 }
+16.55 npm notice
+16.55 npm notice New major version of npm available! 10.8.2 -> 11.5.2
+16.55 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+16.55 npm notice To update run: npm install -g npm@11.5.2
+16.55 npm notice
+------
+
+ [33m6 warnings found (use docker --debug to expand):
+[0m - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 22)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 31)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 32)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 46)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 47)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 21)
+Dockerfile:25
+--------------------
+  23 |     
+  24 |     # Build the application
+  25 | >>> RUN npm run build
+  26 |     
+  27 |     # Stage 3: Runner
+--------------------
+ERROR: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 1
